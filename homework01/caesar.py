@@ -1,66 +1,49 @@
 import typing as tp
 
-
-def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
-    """
-    Encrypts plaintext using a Caesar cipher.
-    >>> encrypt_caesar("PYTHON")
-    'SBWKRQ'
-    >>> encrypt_caesar("python")
-    'sbwkrq'
-    >>> encrypt_caesar("Python3.6")
-    'Sbwkrq3.6'
-    >>> encrypt_caesar("")
-    ''
-    """
-    chiphertext = ""
-    for i in range(len(plaintext)):
-        if plaintext[i].isalpha():
-            a = ord(plaintext[i])
-            if plaintext[i].isupper() and a >= 91 - shift:
-                chiphertext += chr(a - 26 + shift)
-            elif plaintext[i].islower() and a >= 123 - shift:
-                chiphertext += chr(a - 26 + shift)
+def encrypt_caesar(unciphered_text: str, shift: int = 3) -> str:
+    ciphered_text = ""
+    for i in range(len(unciphered_text)):
+        if unciphered_text[i].isalpha():
+            a = ord(unciphered_text[i])
+            if unciphered_text[i].isupper() and a >= 91 - shift:
+                ciphered_text += chr(a - 26 + shift)
             else:
-                chiphertext += chr(a + shift)
+                if unciphered_text[i].islower() and a >= 123 - shift:
+                    ciphered_text += chr(a - 26 + shift)
+                else:
+                    ciphered_text += chr(a + shift)
         else:
-            chiphertext += plaintext[i]
-    return chiphertext
+            ciphered_text += unciphered_text[i]
+    return ciphered_text
+
+'''e = encrypt_caesar("PYTHON") #'SBWKRQ'
+e = encrypt_caesar("python") #'sbwkrq'
+e = encrypt_caesar("Python3.6") #'Sbwkrq3.6'
+e = encrypt_caesar("") #''
+print(e)'''
 
 
-def decrypt_caesar(chiphertext: str, shift: int = 3) -> str:
-    """
-    Decrypts a chiphertext using a Caesar cipher.
-    >>> decrypt_caesar("SBWKRQ")
-    'PYTHON'
-    >>> decrypt_caesar("sbwkrq")
-    'python'
-    >>> decrypt_caesar("Sbwkrq3.6")
-    'Python3.6'
-    >>> decrypt_caesar("")
-    ''
-    """
-    plaintext = ""
-    for i in range(len(chiphertext)):
-        if chiphertext[i].isalpha():
-            a = ord(chiphertext[i])
-            if chiphertext[i].isupper() and a <= 64 + shift:
-                plaintext += chr(a + 26 - shift)
-            elif chiphertext[i].islower() and a <= 96 + shift:
-                plaintext += chr(a + 26 - shift)
+def decrypt_caesar(ciphered_text: str, shift: int = 3) -> str:
+    unciphered_text = ""
+    for i in range(len(ciphered_text)):
+        if ciphered_text[i].isalpha():
+            a = ord(ciphered_text[i])
+            if ciphered_text[i].isupper() and a <= 64 + shift:
+                unciphered_text += chr(a + 26 - shift)
             else:
-                plaintext += chr(a - shift)
-        elif chiphertext.isspace():
-            continue
+                if ciphered_text[i].islower() and a <= 96 + shift:
+                    unciphered_text += chr(a + 26 - shift)
+                else:
+                    unciphered_text += chr(a - shift)
         else:
-            plaintext += chiphertext[i]
-    return plaintext
+            if ciphered_text.isspace():
+                continue
+            else:
+                unciphered_text += ciphered_text[i]
+    return unciphered_text
 
-
-def caesar_breaker_brute_force(chiphertext: str, dictionary: tp.Set[str]) -> int:
-    """
-    Brute force breaking a Caesar cipher.
-    """
-    best_shift = 0
-    # PUT YOUR CODE HERE
-    return best_shift
+'''d = decrypt_caesar("SBWKRQ") #'PYTHON'
+d = decrypt_caesar("sbwkrq") #'python'
+d = decrypt_caesar("Sbwkrq3.6") #'Python3.6'
+d = decrypt_caesar("") #''
+print(d)'''
