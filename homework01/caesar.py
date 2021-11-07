@@ -16,7 +16,8 @@ def encrypt_caesar(unciphered_text: str, shift: int = 3) -> str:
             ciphered_text += unciphered_text[i]
     return ciphered_text
 
-'''e = encrypt_caesar("PYTHON") #'SBWKRQ'
+'''test
+e = encrypt_caesar("PYTHON") #'SBWKRQ'
 e = encrypt_caesar("python") #'sbwkrq'
 e = encrypt_caesar("Python3.6") #'Sbwkrq3.6'
 e = encrypt_caesar("") #''
