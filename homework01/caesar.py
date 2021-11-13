@@ -1,5 +1,6 @@
 import typing as tp
 
+
 def encrypt_caesar(unciphered_text: str, shift: int = 3) -> str:
     ciphered_text = ""
     for i in range(len(unciphered_text)):
@@ -16,12 +17,13 @@ def encrypt_caesar(unciphered_text: str, shift: int = 3) -> str:
             ciphered_text += unciphered_text[i]
     return ciphered_text
 
-'''test
+
+"""test
 e = encrypt_caesar("PYTHON") #'SBWKRQ'
 e = encrypt_caesar("python") #'sbwkrq'
 e = encrypt_caesar("Python3.6") #'Sbwkrq3.6'
 e = encrypt_caesar("") #''
-print(e)'''
+print(e)"""
 
 
 def decrypt_caesar(ciphered_text: str, shift: int = 3) -> str:
@@ -43,8 +45,9 @@ def decrypt_caesar(ciphered_text: str, shift: int = 3) -> str:
                 unciphered_text += ciphered_text[i]
     return unciphered_text
 
-'''d = decrypt_caesar("SBWKRQ") #'PYTHON'
+
+"""d = decrypt_caesar("SBWKRQ") #'PYTHON'
 d = decrypt_caesar("sbwkrq") #'python'
 d = decrypt_caesar("Sbwkrq3.6") #'Python3.6'
 d = decrypt_caesar("") #''
-print(d)'''
+print(d)"""
