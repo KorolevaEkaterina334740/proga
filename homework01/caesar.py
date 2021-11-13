@@ -18,8 +18,6 @@ def encrypt_caesar(unciphered_text: str, shift: int = 3) -> str:
     return ciphered_text
 
 
-
-
 def decrypt_caesar(ciphered_text: str, shift: int = 3) -> str:
     unciphered_text = ""
     for i in range(len(ciphered_text)):
@@ -38,9 +36,3 @@ def decrypt_caesar(ciphered_text: str, shift: int = 3) -> str:
             else:
                 unciphered_text += ciphered_text[i]
     return unciphered_text
-
-'''d = decrypt_caesar("SBWKRQ") #'PYTHON'
-d = decrypt_caesar("sbwkrq") #'python'
-d = decrypt_caesar("Sbwkrq3.6") #'Python3.6'
-d = decrypt_caesar("") #''
-print(d)'''

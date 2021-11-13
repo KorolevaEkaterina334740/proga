@@ -27,10 +27,12 @@ def encrypt_vigenere(unciphered_text: str, keyword: str) -> str:
             ciphered_text += unciphered_text[i]
     return ciphered_text
 
-'''e = encrypt_vigenere("PYTHON", "A") #'PYTHON'
+
+"""test
+e = encrypt_vigenere("PYTHON", "A") #'PYTHON'
 e = encrypt_vigenere("python", "a") #'python'
 e = encrypt_vigenere("ATTACKATDAWN", "LEMON") #'LXFOPVEFRNHR'
-print(e)'''
+print(e)"""
 
 
 def decrypt_vigenere(ciphered_text: str, keyword: str) -> str:
@@ -58,7 +60,8 @@ def decrypt_vigenere(ciphered_text: str, keyword: str) -> str:
             unciphered_text += ciphered_text[i]
     return unciphered_text
 
-'''d = decrypt_vigenere("PYTHON", "A") #'PYTHON'
+
+"""d = decrypt_vigenere("PYTHON", "A") #'PYTHON'
 d = decrypt_vigenere("python", "a") #'python'
 d = decrypt_vigenere("LXFOPVEFRNHR", "LEMON") #'ATTACKATDAWN'
-print(d)'''
+print(d)"""

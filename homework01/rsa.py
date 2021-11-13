@@ -16,10 +16,11 @@ def is_prime(n: int) -> bool:
     return b ** 2 > n
     pass
 
-'''i = is_prime(2) #True
+
+"""i = is_prime(2) #True
 i = is_prime(11) #True
 i = is_prime(8) #False
-print(i)'''
+print(i)"""
 
 
 def gcd(a: int, b: int) -> int:
@@ -31,9 +32,10 @@ def gcd(a: int, b: int) -> int:
     return a + b
     pass
 
-'''g = gcd(12, 15) #3
+
+"""g = gcd(12, 15) #3
 g = gcd(3, 7) #1
-print(g)'''
+print(g)"""
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -54,11 +56,14 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     return k
     pass
 
-'''m = multiplicative_inverse(7, 40) #23
-print(m)'''
+
+"""m = multiplicative_inverse(7, 40) #23
+print(m)"""
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(
+    p: int, q: int
+) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     else:
