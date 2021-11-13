@@ -1,5 +1,7 @@
 import typing as tp
 
+
+
 def encrypt_caesar(unciphered_text: str, shift: int = 3) -> str:
     ciphered_text = ""
     for i in range(len(unciphered_text)):
