@@ -5,7 +5,7 @@ from typing import List
 
 T = tp.TypeVar("T")
 
-
+# run black
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
@@ -27,8 +27,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     for row in range(9):
         print(
             "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "")
-                for col in range(9)
+                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
             )
         )
         if str(row) in "25":
@@ -165,9 +164,7 @@ def find_empty_positions(
     return i, j
 
 
-def find_possible_values(
-    grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]
-) -> tp.Set[str]:
+def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
 
     »> grid = read_sudoku('puzzle1.txt')
@@ -234,11 +231,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
                 setcol = set(col)
                 setrow = set(row)
                 setb = set(b)
-                if (
-                    len(setcol) == len(col)
-                    and len(setrow) == len(row)
-                    and len(setb) == len(b)
-                ):
+                if len(setcol) == len(col) and len(setrow) == len(row) and len(setb) == len(b):
                     key = 1
                 if key == 1:
                     continue
