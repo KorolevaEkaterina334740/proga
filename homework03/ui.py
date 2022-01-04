@@ -1,9 +1,9 @@
 import abc
-
-from life import GameOfLife
+from life_game_files import GameOfLife
 
 
 class UI(abc.ABC):
+
     def __init__(self, life: GameOfLife) -> None:
         self.life = life
 
