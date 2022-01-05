@@ -2,7 +2,6 @@
 
 import pathlib
 
-
 import pygame  # type: ignore # pylint: disable=import-error
 from pygame.locals import *  # type: ignore # pylint: disable=import-error
 
