@@ -37,14 +37,10 @@ class GameOfLife:
 
     def draw_lines(self) -> None:
         for x_c in range(0, self.width, self.cell_size):
-            pygame.draw.line(
-                self.screen, pygame.Color("black"), (x_c, 0), (x_c, self.height)
-            )
+            pygame.draw.line(self.screen, pygame.Color("black"), (x_c, 0), (x_c, self.height))
 
         for y_c in range(0, self.height, self.cell_size):
-            pygame.draw.line(
-                self.screen, pygame.Color("black"), (0, y_c), (self.width, y_c)
-            )
+            pygame.draw.line(self.screen, pygame.Color("black"), (0, y_c), (self.width, y_c))
 
     def run(self) -> None:
         pygame.init()
@@ -103,9 +99,7 @@ class GameOfLife:
 
         for i in range(len(self.grid)):
             for j in range(len(self.grid[i])):
-                cell_color = (
-                    pygame.Color("green") if self.grid[i][j] else pygame.Color("white")
-                )
+                cell_color = pygame.Color("green") if self.grid[i][j] else pygame.Color("white")
                 rect = pygame.Rect(
                     j * self.cell_size,
                     i * self.cell_size,
@@ -115,9 +109,7 @@ class GameOfLife:
                 pygame.draw.rect(self.screen, cell_color, rect)
 
     def _is_valid_cell(self, candidate: Cell) -> bool:
-        return 0 <= candidate[0] < len(self.grid) and 0 <= candidate[1] < len(
-            self.grid[0]
-        )
+        return 0 <= candidate[0] < len(self.grid) and 0 <= candidate[1] < len(self.grid[0])
 
     def get_neighbours(self, cell: Cell) -> Cells:
         """
