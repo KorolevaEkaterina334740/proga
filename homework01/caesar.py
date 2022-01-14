@@ -1,38 +1,38 @@
 import typing as tp
 
 
-def encrypt_caesar(unciphered_text: str, shift: int = 3) -> str:
-    ciphered_text = ""
-    for i in range(len(unciphered_text)):
-        if unciphered_text[i].isalpha():
-            a = ord(unciphered_text[i])
-            if unciphered_text[i].isupper() and a >= 91 - shift:
-                ciphered_text += chr(a - 26 + shift)
+def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
+    ciphertext = ""
+    for i in plaintext:
+        if i.isalpha():
+            if i.istitle():
+                i = chr(ord(i) + shift)
+                if ord(i) > ord("Z"):
+                    i = chr(ord(i) - 26)
             else:
-                if unciphered_text[i].islower() and a >= 123 - shift:
-                    ciphered_text += chr(a - 26 + shift)
-                else:
-                    ciphered_text += chr(a + shift)
-        else:
-            ciphered_text += unciphered_text[i]
-    return ciphered_text
+                i = chr(ord(i) + shift)
+                if ord(i) > ord("z"):
+                    i = chr(ord(i) - 26)
+        ciphertext += i
+    return ciphertext
 
 
-def decrypt_caesar(ciphered_text: str, shift: int = 3) -> str:
-    unciphered_text = ""
-    for i in range(len(ciphered_text)):
-        if ciphered_text[i].isalpha():
-            a = ord(ciphered_text[i])
-            if ciphered_text[i].isupper() and a <= 64 + shift:
-                unciphered_text += chr(a + 26 - shift)
+def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
+    plaintext = ""
+    for i in ciphertext:
+        if i.isalpha():
+            if i.istitle():
+                i = chr(ord(i) - shift)
+                if ord(i) < ord("A"):
+                    i = chr(ord(i) + 26)
             else:
-                if ciphered_text[i].islower() and a <= 96 + shift:
-                    unciphered_text += chr(a + 26 - shift)
-                else:
-                    unciphered_text += chr(a - shift)
-        else:
-            if ciphered_text.isspace():
-                continue
-            else:
-                unciphered_text += ciphered_text[i]
-    return unciphered_text
+                i = chr(ord(i) - shift)
+                if ord(i) < ord("i"):
+                    i = chr(ord(i) + 26)
+        plaintext += i
+    return plaintext
+
+
+def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
+    best_shift = 0
+    return best_shift
