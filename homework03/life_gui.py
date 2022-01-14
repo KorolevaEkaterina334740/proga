@@ -6,7 +6,6 @@ import life
 import pygame  # type: ignore # pylint: disable=import-error
 from life import GameOfLife
 from pygame.locals import *  # type: ignore # pylint: disable=import-error
-
 from ui import UI
 
 
