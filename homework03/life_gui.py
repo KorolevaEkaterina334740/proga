@@ -24,14 +24,10 @@ class GUI(UI):
 
     def draw_lines(self) -> None:
         for x_c in range(0, self.width, self.cell_size):
-            pygame.draw.line(
-                self.screen, pygame.Color("black"), (x_c, 0), (x_c, self.height)
-            )
+            pygame.draw.line(self.screen, pygame.Color("black"), (x_c, 0), (x_c, self.height))
 
         for y_c in range(0, self.height, self.cell_size):
-            pygame.draw.line(
-                self.screen, pygame.Color("black"), (0, y_c), (self.width, y_c)
-            )
+            pygame.draw.line(self.screen, pygame.Color("black"), (0, y_c), (self.width, y_c))
 
     def draw_grid(self) -> None:
         for i in range(len(self.life.curr_generation)):
