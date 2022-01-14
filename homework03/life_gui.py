@@ -2,11 +2,11 @@
 
 import pathlib
 
+import life
 import pygame  # type: ignore # pylint: disable=import-error
+from life import GameOfLife
 from pygame.locals import *  # type: ignore # pylint: disable=import-error
 
-import life
-from life import GameOfLife
 from ui import UI
 
 
