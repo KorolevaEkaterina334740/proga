@@ -3,41 +3,50 @@ import typing as tp
 
 
 def is_prime(n: int) -> bool:
-    if n == 2:
-        return True
-    else:
-        if n == 1:
-            return False
-    if n % 2 == 0:
+    """
+    Tests to see if a number is prime.
+    >>> is_prime(2)
+    True
+    >>> is_prime(11)
+    True
+    >>> is_prime(8)
+    False
+    """
+    if n == 1:
         return False
-    b = 3
-    while b ** 2 <= n and n % b != 0:
-        b += 2
-    return b ** 2 > n
+    d = 2
+    while n % d != 0:
+        d += 1
+    return d == n
 
 
 def gcd(a: int, b: int) -> int:
+    """
+    Euclid's algorithm for determining the greatest common divisor.
+    >>> gcd(12, 15)
+    3
+    >>> gcd(3, 7)
+    1
+    """
     while a != 0 and b != 0:
         if a > b:
-            a = a % b
+            a %= b
         else:
-            b = b % a
-    return a + b
+            b %= a
+    grecd = a + b
+    return grecd
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
-    x = 1
-    xx = 0
-    y = 0
-    yy = 1
-    w = phi
-    while phi:
-        q = e // phi
-        e, phi = phi, e % phi
-        x, xx = xx, x - xx * q
-        y, yy = yy, y - yy * q
-    k = x % w
-    return k
+    """
+    >>> multiplicative_inverse(7, 40)
+    23
+    """
+    d = 0
+    for i in range(1, phi):
+        if d * e % phi != 1:
+            d += 1
+    return d
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -45,26 +54,46 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
+
+    # n = pq
     n = p * q
+
+    # phi = (p-1)(q-1)
     phi = (p - 1) * (q - 1)
+
+    # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
+
+    # Use Euclid's Algorithm to verify that e and phi(n) are coprime
     g = gcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
         g = gcd(e, phi)
+
+    # Use Extended Euclid's Algorithm to generate the private key
     d = multiplicative_inverse(e, phi)
+
+    # Return public and private keypair
+    # Public key is (e, n) and private key is (d, n)
     return ((e, n), (d, n))
 
 
-def encrypt(pk: tp.Tuple[int, int], unciphered_text: str) -> tp.List[int]:
+def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
+    # Unpack the key into it's components
     key, n = pk
-    cipher = [(ord(char) ** key) % n for char in unciphered_text]
+    # Convert each letter in the plaintext to numbers based on
+    # the character using a^b mod m
+    cipher = [(ord(char) ** key) % n for char in plaintext]
+    # Return the array of bytes
     return cipher
 
 
-def decrypt(pk: tp.Tuple[int, int], ciphered_text: tp.List[int]) -> str:
+def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    # Unpack the key into its components
     key, n = pk
-    plain = [chr((char ** key) % n) for char in ciphered_text]
+    # Generate the plaintext based on the ciphertext and key using a^b mod m
+    plain = [chr((char ** key) % n) for char in ciphertext]
+    # Return the array of bytes as a string
     return "".join(plain)
 
 
@@ -76,9 +105,9 @@ if __name__ == "__main__":
     public, private = generate_keypair(p, q)
     print("Your public key is ", public, " and your private key is ", private)
     message = input("Enter a message to encrypt with your private key: ")
-    encrypted_message = encrypt(private, message)
+    encrypted_msg = encrypt(private, message)
     print("Your encrypted message is: ")
-    print("".join(map(lambda x: str(x), encrypted_message)))
+    print("".join(map(lambda x: str(x), encrypted_msg)))
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
-    print(decrypt(public, encrypted_message))
+    print(decrypt(public, encrypted_msg))
