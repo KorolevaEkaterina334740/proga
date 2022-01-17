@@ -1,7 +1,7 @@
 from random import choice, randint
 from typing import List, Optional, Tuple, Union
 
-import pandas as pd
+import pandas as pd  # type: ignore[import]
 
 
 def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
@@ -142,10 +142,10 @@ def shortest_path(
     """
     a, b = exit_coord[0], exit_coord[1]
     ex = grid[a][b]
-    k = grid[a][b] - 1
-    list = []
+    k = int(grid[a][b]) - 1
+    listik = []
     temp = a, b
-    list.append(temp)
+    listik.append(temp)
     while k != 0:
         if a + 1 < len(grid):
             if grid[a + 1][b] == k:
@@ -163,14 +163,15 @@ def shortest_path(
             if grid[a][b - 1] == k:
                 temp = a, b - 1
                 b -= 1
-        list.append(temp)
+        listik.append(temp)
         k -= 1
-    if len(list) != ex:
-        x, y = list[-1][0], list[-1][1]
+    if len(listik) != ex:
+        x, y = listik[-1][0], listik[-1][1]
         grid[x][y] = " "
-        c, d = list[-2][0], list[-2][1]
+        c, d = listik[-2][0], listik[-2][1]
         shortest_path(grid, (c, d))
-    return grid, list
+    # return grid, listik
+    return listik
 
 
 def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> bool:
@@ -199,7 +200,8 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
 def solve_maze(
     grid: List[List[Union[str, int]]],
 ) -> Tuple[
-    List[List[Union[str, int]]], Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
+    Optional[List[List[Union[str, int]]]],
+    Optional[Union[Tuple[int, int], List[Tuple[int, int]]]],
 ]:
     """
 
@@ -208,20 +210,21 @@ def solve_maze(
     """
     outs = get_exits(grid)
     if len(outs) != 2:
-        return None
+        return None, None
     x, y = outs[0][0], outs[0][1]
     a, b = outs[1][0], outs[1][1]
     if encircled_exit(grid, (x, y)):
-        return None
+        return None, None
     if encircled_exit(grid, (a, b)):
-        return None
+        return None, None
     k = 1
     grid[x][y], grid[a][b] = 1, 0
     while grid[a][b] == 0:
         make_step(grid, k)
         k += 1
-    grid, list = shortest_path(grid, (a, b))
-    return grid, list
+    # grid, listik = shortest_path(grid, (a, b))
+    listik = shortest_path(grid, (a, b))
+    return grid, listik
 
 
 def add_path_to_grid(
@@ -249,6 +252,7 @@ if __name__ == "__main__":
     print(pd.DataFrame(bin_tree_maze(15, 15)))
     GRID = bin_tree_maze(15, 15)
     print(pd.DataFrame(GRID))
-    _, PATH = solve_maze(GRID)
+    # if (type(solve_maze(GRID)) != type(None)):
+    MAZE, PATH = solve_maze(GRID)
     MAZE = add_path_to_grid(GRID, PATH)
     print(pd.DataFrame(MAZE))

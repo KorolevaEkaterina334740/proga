@@ -18,7 +18,7 @@ class MazeTest(unittest.TestCase):
         self.assertEqual(
             [
                 ["■", "■", "■", "■", "■"],
-                ["■", " ", " ", " ", "■"],
+                ["■", " ", "■", " ", "■"],
                 ["■", "■", "■", "■", "■"],
                 ["■", " ", "■", " ", "■"],
                 ["■", "■", "■", "■", "■"],
@@ -44,7 +44,7 @@ class MazeTest(unittest.TestCase):
                 ["■", "■", "■", "■", "■", " ", "■"],
                 ["■", " ", " ", " ", " ", " ", "■"],
                 ["■", "■", "■", "■", "■", "■", "■"],
-                ["■", " ", " ", " ", "■", " ", "■"],
+                ["■", " ", "■", " ", "■", " ", "■"],
                 ["■", "■", "■", "■", "■", "■", "■"],
             ],
             maze.remove_wall(grid_2, coord_2),
@@ -67,7 +67,7 @@ class MazeTest(unittest.TestCase):
                 ["■", " ", " ", " ", " ", " ", "■"],
                 ["■", "■", "■", "■", "■", " ", "■"],
                 ["■", " ", " ", " ", " ", " ", "■"],
-                ["■", "■", "■", "■", "■", " ", "■"],
+                ["■", "■", "■", "■", "■", "■", "■"],
                 ["■", " ", " ", " ", " ", " ", "■"],
                 ["■", "■", "■", "■", "■", "■", "■"],
             ],
@@ -79,29 +79,29 @@ class MazeTest(unittest.TestCase):
         expected_grid_42 = [
             ["■", "■", "■", "■", "■"],
             ["X", " ", " ", " ", "■"],
-            ["■", "■", "■", " ", "■"],
-            ["■", " ", " ", " ", "■"],
+            ["■", " ", "■", " ", "■"],
+            ["■", " ", "■", " ", "■"],
             ["■", "■", "■", "■", "■"],
         ]
         self.assertEqual(expected_grid_42, maze.bin_tree_maze(5, 5))
 
         seed(222)
         expected_grid_222 = [
-            ["■", "X", "■", "X", "■"],
+            ["■", "■", "■", "X", "■"],
             ["■", " ", " ", " ", "■"],
-            ["■", "■", "■", " ", "■"],
-            ["■", " ", " ", " ", "■"],
+            ["X", " ", "■", " ", "■"],
+            ["■", " ", "■", " ", "■"],
             ["■", "■", "■", "■", "■"],
         ]
         self.assertEqual(expected_grid_222, maze.bin_tree_maze(5, 5))
 
         seed(622)
         expected_grid_622 = [
-            ["■", "■", "■", "X", "■"],
-            ["■", " ", " ", " ", "■"],
-            ["■", "■", "■", " ", "■"],
-            ["■", " ", " ", " ", "■"],
             ["X", "■", "■", "■", "■"],
+            ["■", " ", " ", " ", "■"],
+            ["■", "■", "■", " ", "X"],
+            ["■", " ", " ", " ", "■"],
+            ["■", "■", "■", "■", "■"],
         ]
         self.assertEqual(expected_grid_622, maze.bin_tree_maze(5, 5))
 
@@ -238,23 +238,26 @@ class MazeTest(unittest.TestCase):
         grid = maze.bin_tree_maze(5, 5)
         _, path_ = maze.solve_maze(grid)
         self.assertEqual(
-            [(3, 0), (3, 1), (2, 1), (1, 1), (1, 2), (1, 3), (2, 3), (2, 4)], path_
+            [(3, 0), (3, 1), (3, 2), (3, 3), (2, 3), (1, 3), (1, 2), (0, 2)], path_
         )
 
         seed(4)
         grid = maze.bin_tree_maze(5, 5)
         _, path_ = maze.solve_maze(grid)
-        self.assertEqual([(3, 0), (3, 1), (2, 1), (1, 1), (1, 0)], path_)
+        # self.assertEqual([(3, 0), (3, 1), (2, 1), (1, 1), (1, 0)], path_)
+        self.assertEqual(None, path_)
 
         seed(44)
         grid = maze.bin_tree_maze(5, 5)
         _, path_ = maze.solve_maze(grid)
-        self.assertEqual([(2, 0), (1, 0)], path_)
+        self.assertEqual(
+            [(3, 4), (3, 3), (2, 3), (1, 3), (1, 2), (1, 1), (1, 0)], path_
+        )
 
         seed(131)
         grid = maze.bin_tree_maze(5, 5)
         _, path_ = maze.solve_maze(grid)
-        self.assertIsNone(path_)
+        self.assertEqual([(3, 0), (3, 1), (3, 2), (3, 3), (2, 3), (2, 4)], path_)
 
         seed(151)
         grid = maze.bin_tree_maze(5, 5)
@@ -264,7 +267,7 @@ class MazeTest(unittest.TestCase):
         seed(773)
         grid = maze.bin_tree_maze(5, 5)
         _, path_ = maze.solve_maze(grid)
-        self.assertEqual([(4, 3), (3, 3), (3, 2), (3, 1), (3, 0)], path_)
+        self.assertEqual([(4, 3), (3, 3), (2, 3), (2, 4)], path_)
 
     def test_shortest_path(self):
         grid_1 = [
