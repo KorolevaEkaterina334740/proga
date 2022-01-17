@@ -70,7 +70,9 @@ def bin_tree_maze(
     if random_exit:
         x_in, x_out = randint(0, rows - 1), randint(0, rows - 1)
         y_in = randint(0, cols - 1) if x_in in (0, rows - 1) else choice((0, cols - 1))
-        y_out = randint(0, cols - 1) if x_out in (0, rows - 1) else choice((0, cols - 1))
+        y_out = (
+            randint(0, cols - 1) if x_out in (0, rows - 1) else choice((0, cols - 1))
+        )
     else:
         x_in, y_in = 0, cols - 2
         x_out, y_out = rows - 1, 1
@@ -118,9 +120,13 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
             grid[x][y - 1] = k + 1
         if (x != 0 and grid[x - 1][y] == " ") or (x != 0 and grid[x - 1][y] == 0):
             grid[x - 1][y] = k + 1
-        if (y != len(grid) - 1 and grid[x][y + 1] == " ") or (y != len(grid) - 1 and grid[x][y + 1] == 0):
+        if (y != len(grid) - 1 and grid[x][y + 1] == " ") or (
+            y != len(grid) - 1 and grid[x][y + 1] == 0
+        ):
             grid[x][y + 1] = k + 1
-        if (x != len(grid) - 1 and grid[x + 1][y] == " ") or (x != len(grid) - 1 and grid[x + 1][y] == 0):
+        if (x != len(grid) - 1 and grid[x + 1][y] == " ") or (
+            x != len(grid) - 1 and grid[x + 1][y] == 0
+        ):
             grid[x + 1][y] = k + 1
     return grid
 
@@ -176,14 +182,25 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     """
 
     x, y = coord[0], coord[1]
-    if (x == 0 and y == 0) or (x == 0 and y == len(grid) - 1) or (x == len(grid) - 1 and y == 0) or (x == len(grid) - 1 and y == len(grid)) or (y == 0 and grid[x][y + 1] == "■") or (y == len(grid) - 1 and grid[x][y - 1] == "■") or (x == 0 and grid[x + 1][y] == "■") or (x == len(grid) - 1 and grid[x - 1][y] == "■"):
+    if (
+        (x == 0 and y == 0)
+        or (x == 0 and y == len(grid) - 1)
+        or (x == len(grid) - 1 and y == 0)
+        or (x == len(grid) - 1 and y == len(grid))
+        or (y == 0 and grid[x][y + 1] == "■")
+        or (y == len(grid) - 1 and grid[x][y - 1] == "■")
+        or (x == 0 and grid[x + 1][y] == "■")
+        or (x == len(grid) - 1 and grid[x - 1][y] == "■")
+    ):
         return True
     return False
 
 
 def solve_maze(
     grid: List[List[Union[str, int]]],
-) -> Tuple[List[List[Union[str, int]]], Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]]:
+) -> Tuple[
+    List[List[Union[str, int]]], Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
+]:
     """
 
     :param grid:
@@ -208,7 +225,8 @@ def solve_maze(
 
 
 def add_path_to_grid(
-    grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
+    grid: List[List[Union[str, int]]],
+    path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]],
 ) -> List[List[Union[str, int]]]:
     """
 
