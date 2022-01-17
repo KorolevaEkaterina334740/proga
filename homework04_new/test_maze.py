@@ -237,9 +237,7 @@ class MazeTest(unittest.TestCase):
         seed(34)
         grid = maze.bin_tree_maze(5, 5)
         _, path_ = maze.solve_maze(grid)
-        self.assertEqual(
-            [(3, 0), (3, 1), (3, 2), (3, 3), (2, 3), (1, 3), (1, 2), (0, 2)], path_
-        )
+        self.assertEqual([(3, 0), (3, 1), (3, 2), (3, 3), (2, 3), (1, 3), (1, 2), (0, 2)], path_)
 
         seed(4)
         grid = maze.bin_tree_maze(5, 5)
@@ -250,9 +248,7 @@ class MazeTest(unittest.TestCase):
         seed(44)
         grid = maze.bin_tree_maze(5, 5)
         _, path_ = maze.solve_maze(grid)
-        self.assertEqual(
-            [(3, 4), (3, 3), (2, 3), (1, 3), (1, 2), (1, 1), (1, 0)], path_
-        )
+        self.assertEqual([(3, 4), (3, 3), (2, 3), (1, 3), (1, 2), (1, 1), (1, 0)], path_)
 
         seed(131)
         grid = maze.bin_tree_maze(5, 5)
