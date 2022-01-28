@@ -1,67 +1,62 @@
-import typing as tp
-
-
-def encrypt_vigenere(unciphered_text: str, keyword: str) -> str:
-
-    ciphered_text = ""
-    a = 0
-    while len(unciphered_text) > len(keyword):
-        keyword += keyword[a]
-        a += 1
-    for i in range(len(keyword)):
-        if keyword[i].isupper():
-            key = ord(keyword[i]) - 65
-        else:
-            if keyword[i].islower():
-                key = ord(keyword[i]) - 97
-        if unciphered_text[i].isalpha():
-            c = ord(unciphered_text[i])
-            if unciphered_text[i].isupper() and c >= 91 - key:
-                ciphered_text += chr(c - 26 + key)
+def encrypt_vigenere(plaintext: str, keyword: str) -> str:
+    """
+    Encrypts plaintext using a Vigenere cipher.
+    >>> encrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> encrypt_vigenere("python", "a")
+    'python'
+    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
+    'LXFOPVEFRNHR'
+    """
+    ciphertext = ""
+    for i in range(len(plaintext)):
+        letter_new = ord(plaintext[i])
+        key = ord(keyword[i % len(keyword)])
+        if chr(letter_new) == " ":
+            ciphertext += " "
+            continue
+        if ord("A") <= letter_new <= ord("Z"):
+            if ord("A") <= key <= ord("Z"):
+                ciphertext += chr((letter_new - ord("A") + key - ord("A")) % 26 + ord("A"))
             else:
-                if unciphered_text[i].islower() and c >= 123 - key:
-                    ciphered_text += chr(c - 26 + key)
-                else:
-                    ciphered_text += chr(c + key)
-        else:
-            ciphered_text += unciphered_text[i]
-    return ciphered_text
-
-
-"""test
-e = encrypt_vigenere("PYTHON", "A") #'PYTHON'
-e = encrypt_vigenere("python", "a") #'python'
-e = encrypt_vigenere("ATTACKATDAWN", "LEMON") #'LXFOPVEFRNHR'
-print(e)"""
-
-
-def decrypt_vigenere(ciphered_text: str, keyword: str) -> str:
-    unciphered_text = ""
-    a = 0
-    while len(ciphered_text) > len(keyword):
-        keyword += keyword[a]
-        a += 1
-    for i in range(len(keyword)):
-        if keyword[i].isupper():
-            key = ord(keyword[i]) - 65
-        else:
-            if keyword[i].islower():
-                key = ord(keyword[i]) - 97
-        if ciphered_text[i].isalpha():
-            c = ord(ciphered_text[i])
-            if ciphered_text[i].isupper() and c <= 64 + key:
-                unciphered_text += chr(c + 26 - key)
+                ciphertext += chr((letter_new + key - ord("A") - ord("a")) % 26 + ord("A"))
+        elif ord("a") <= letter_new <= ord("z"):
+            if ord("A") <= key <= ord("Z"):
+                ciphertext += chr((letter_new + key - ord("a") - ord("A")) % 26 + ord("a"))
             else:
-                if ciphered_text[i].islower() and c <= 96 + key:
-                    unciphered_text += chr(c + 26 - key)
-                else:
-                    unciphered_text += chr(c - key)
+                ciphertext += chr((letter_new - ord("a") + key - ord("a")) % 26 + ord("a"))
         else:
-            unciphered_text += ciphered_text[i]
-    return unciphered_text
+            ciphertext += chr(letter_new)
+    return ciphertext
 
 
-"""d = decrypt_vigenere("PYTHON", "A") #'PYTHON'
-d = decrypt_vigenere("python", "a") #'python'
-d = decrypt_vigenere("LXFOPVEFRNHR", "LEMON") #'ATTACKATDAWN'
-print(d)"""
+def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
+    """
+    Decrypts a ciphertext using a Vigenere cipher.
+    >>> decrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> decrypt_vigenere("python", "a")
+    'python'
+    >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
+    'ATTACKATDAWN'
+    """
+    plaintext = ""
+    for i in range(len(ciphertext)):
+        letter_new = ord(ciphertext[i])
+        key = ord(keyword[i % len(keyword)])
+        if chr(letter_new) == " ":
+            plaintext += " "
+            continue
+        if ord("A") <= letter_new <= ord("Z"):
+            if ord("A") <= key <= ord("Z"):
+                plaintext += chr((letter_new - ord("A") - key + ord("A")) % 26 + ord("A"))
+            else:
+                plaintext += chr((letter_new - ord("A") - key + ord("a")) % 26 + ord("A"))
+        elif ord("a") <= letter_new <= ord("z"):
+            if ord("A") <= key <= ord("Z"):
+                plaintext += chr((letter_new - ord("a") - key + ord("A")) % 26 + ord("a"))
+            else:
+                plaintext += chr((letter_new - ord("a") - key + ord("a")) % 26 + ord("a"))
+        else:
+            plaintext += chr(letter_new)
+    return plaintext
