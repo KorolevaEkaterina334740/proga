@@ -1,6 +1,7 @@
 import sqlalchemy.exc
-from bayes import NaiveBayesClassifier, label_news
 from bottle import redirect, request, route, run, template
+
+from bayes import NaiveBayesClassifier, label_news
 from db import News, session
 from scraputils import get_news
 
@@ -43,6 +44,7 @@ def update_news():
             sn.add(new)
             sn.commit()
     redirect("/news")
+
 
 @route("/classify")
 def classify_news():
