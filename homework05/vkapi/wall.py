@@ -3,11 +3,19 @@ import time
 import typing as tp
 from string import Template
 
+owner_id = 888
+domain = 111
+code = (
+    f'return [API.wall.get({{"owner_id": {owner_id}, "domain": {domain}, "offset": 0, "count": 1, '
+    f'"filter": {owner_id}, "extended": 0, "fields": "", "v": 5.126,}})];'
+)
+print(code)
+
 import pandas as pd
 from pandas import json_normalize
-
 from vkapi import config, session
 from vkapi.exceptions import APIError
+from vkapi.session import Session
 
 
 def get_posts_2500(
@@ -49,4 +57,40 @@ def get_wall_execute(
     :param fields: Список дополнительных полей для профилей и сообществ, которые необходимо вернуть.
     :param progress: Callback для отображения прогресса.
     """
-    pass
+    token = config.VK_CONFIG["access_token"]
+    v = config.VK_CONFIG["version"]
+    s = Session(config.VK_CONFIG["domain"])
+    all_data = []
+    for call in range(((count - 1) // max_count) + 1):
+        try:
+            code = Template(
+                """var posts = []; var i = 0; while (i < $attempts) 
+                {posts = posts + API.wall.get({"owner_id":$owner_id,"domain":"$domain","offset":$offset + i*100,
+                "count":"$count","filter":"$filter","extended":$extended,"fields":'$fields',"v":$version})['items'];
+                 i=i+1;} return {"count": posts.length, "items": posts};"""
+            ).substitute(
+                owner_id=owner_id,
+                domain=domain,
+                offset=offset + max_count * call,
+                count=count - max_count * call if count - max_count * call < 101 else 100,
+                attempts=(count - max_count * call - 1) // 100 + 1,
+                filter=filter,
+                extended=extended,
+                fields=fields,
+                version=v,
+            )
+            wall_data = s.post(
+                "execute",
+                data={
+                    "code": code,
+                    "access_token": token,
+                    "v": v,
+                },
+            )
+            time.sleep(1)
+
+            all_data = [post for post in wall_data.json()["response"]["items"]]
+        except:
+            pass
+
+    return json_normalize(all_data)
