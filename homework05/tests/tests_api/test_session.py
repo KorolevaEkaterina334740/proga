@@ -3,8 +3,8 @@ import unittest
 
 import httpretty
 import responses
-from requests.exceptions import ConnectionError, HTTPError, ReadTimeout, RetryError
-
+from requests.exceptions import RetryError  # type: ignore
+from requests.exceptions import ConnectionError, HTTPError, ReadTimeout
 from vkapi.session import Session
 
 
